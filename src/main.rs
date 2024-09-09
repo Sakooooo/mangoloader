@@ -1,6 +1,10 @@
-// use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use actix_files as fs;
-use actix_web::{App, HttpServer};
+
+#[get("/")]
+async fn root() -> impl Responder {
+    HttpResponse::Ok().body("Ok")
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
