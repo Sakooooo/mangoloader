@@ -19,7 +19,7 @@
 
       devShells = eachSystem (pkgs: {
         default = pkgs.mkShell {
-          packages = attrValues { inherit (pkgs) cargo cargo-leptos cargo-generate rustc rust-analyzer rustfmt; };
+          packages = attrValues { inherit (pkgs) cargo cargo-leptos cargo-generate rustc rust-analyzer rustfmt; inherit (pkgs.llvmPackages_8) lld; };
         };
       });
 
