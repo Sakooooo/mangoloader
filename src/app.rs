@@ -20,6 +20,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes>
                     <Route path="" view=HomePage/>
+                <Route path="/web" view=HomePage/>
                     <Route path="/*any" view=NotFound/>
                 </Routes>
             </main>
