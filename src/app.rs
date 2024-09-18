@@ -20,7 +20,7 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes>
                     <Route path="" view=HomePage/>
-                <Route path="/web" view=HomePage/>
+            <Route path="/web" view=Dashboard/>
                     <Route path="/*any" view=NotFound/>
                 </Routes>
             </main>
@@ -38,6 +38,13 @@ fn HomePage() -> impl IntoView {
     view! {
         <h1>"Welcome to Leptos!"</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
+    }
+}
+
+#[component]
+fn Dashboard() -> impl IntoView {
+    view! {
+    <h1>"View"</h1>
     }
 }
 
