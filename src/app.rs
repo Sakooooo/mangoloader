@@ -19,8 +19,8 @@ pub fn App() -> impl IntoView {
         <Router>
             <main>
                 <Routes>
-                    <Route path="" view=HomePage/>
-            <Route path="/web" view=Dashboard/>
+                    // <Route path="" view=HomePage/>
+                    <Route path="/web" view=Dashboard/>
                     <Route path="/*any" view=NotFound/>
                 </Routes>
             </main>
