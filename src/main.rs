@@ -1,21 +1,46 @@
 use axum::{
-    routing::get,
+    // routing::get,
     Router,
-    response::Html
+    response::Html,
+    // http::StatusCode,
 };
+use std::net::SocketAddr;
+// use tower::ServiceExt;
+use tower_http::{
+    services::ServeDir,
+    trace::TraceLayer,
+};
+// use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
 async fn main() {
-    // build our application with a single route
-    let app = Router::new().route("/", get(test));
+    // // build our application with a single route
+    // let app = Router::new().route("/web", get(test));
+    // // run our app with hyper, listening globally on port 3000
+    // let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    // println!("Ready!");
 
-    // run our app with hyper, listening globally on port 3000
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    println!("Ready!");
+    // axum::serve(listener, app).await.unwrap();
 
-    axum::serve(listener, app).await.unwrap();
+    tokio::join!(
+        serve(using_serve_dir(), 3000),
+    );}
+
+async fn serve(app: Router, port: u16) {
+    let addr = SocketAddr::from(([127, 0, 0, 1], port));
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
+    // tracing::debug!("listening on {}", listener.local_addr().unwrap());
+    axum::serve(listener, app.layer(TraceLayer::new_for_http()))
+        .await
+        .unwrap();
 }
 
-async  fn  test() -> Html<&'static str> {
-    Html("<h1>Hello</h1>")
+// async  fn  test() -> Html<&'static str> {
+//     Html("<h1>Hello</h1>")
+// }
+
+fn using_serve_dir() -> Router {
+    // serve the file in the "web" directory under `/web`
+    Router::new()
+	.nest_service("/web", ServeDir::new("./web"))
 }
