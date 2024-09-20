@@ -17,3 +17,8 @@ playwright/.cache/
 
 # direnv
 .direnv
+
+
+# Added by cargo
+
+/target
