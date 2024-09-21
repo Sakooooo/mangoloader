@@ -1,5 +1,5 @@
 use axum::{
-    // routing::get,
+    routing::get,
     Router,
     response::Html,
     // http::StatusCode,
@@ -24,7 +24,10 @@ async fn main() {
 
     tokio::join!(
         serve(using_serve_dir(), 3000),
-    );}
+    );
+
+    println!("Mangoloader ready!");
+}
 
 async fn serve(app: Router, port: u16) {
     let addr = SocketAddr::from(([127, 0, 0, 1], port));
@@ -35,9 +38,9 @@ async fn serve(app: Router, port: u16) {
         .unwrap();
 }
 
-// async  fn  test() -> Html<&'static str> {
-//     Html("<h1>Hello</h1>")
-// }
+async  fn  api_test() -> Router {
+    Router::new().route("/api/test", get(|| async {"Test"}))
+}
 
 fn using_serve_dir() -> Router {
     // serve the file in the "web" directory under `/web`
