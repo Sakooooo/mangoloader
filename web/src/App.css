@@ -2,3 +2,13 @@
   padding: 2rem;
   text-align: center;
 }
+
+.ui {
+    background-color: #323232;
+}
+
+.ui .top {
+    display: flex;
+    gap: 0.5em;
+    padding-left: 1.25em;
+}
