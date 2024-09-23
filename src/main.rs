@@ -23,7 +23,7 @@ async fn main() {
     // axum::serve(listener, app).await.unwrap();
 
     tokio::join!(
-        serve(using_serve_dir(), 3000),
+        serve(begin_serve(), 3000),
     );
 
     println!("Mangoloader ready!");
@@ -38,7 +38,7 @@ async fn serve(app: Router, port: u16) {
         .unwrap();
 }
 
-fn using_serve_dir() -> Router {
+fn begin_serve() -> Router {
     // serve the file in the "web" directory under `/web`
     Router::new()
 	.nest_service("/web", ServeDir::new("./web"))
