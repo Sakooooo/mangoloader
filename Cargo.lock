@@ -298,6 +298,8 @@ version = "0.0.1"
 dependencies = [
  "axum",
  "hyper",
+ "serde",
+ "serde_json",
  "tokio",
  "tower 0.5.1",
  "tower-http",
