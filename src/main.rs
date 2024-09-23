@@ -38,12 +38,9 @@ async fn serve(app: Router, port: u16) {
         .unwrap();
 }
 
-async  fn  api_test() -> Router {
-    Router::new().route("/api/test", get(|| async {"Test"}))
-}
-
 fn using_serve_dir() -> Router {
     // serve the file in the "web" directory under `/web`
     Router::new()
 	.nest_service("/web", ServeDir::new("./web"))
+	.route("/api/test", get(|| async {"Test"}))
 }
