@@ -22,11 +22,10 @@ async fn main() {
 
     // axum::serve(listener, app).await.unwrap();
 
+    println!("Begin serve...");
     tokio::join!(
         serve(begin_serve(), 3000),
     );
-
-    println!("Mangoloader ready!");
 }
 
 async fn serve(app: Router, port: u16) {
