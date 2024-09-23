@@ -9,10 +9,11 @@ use tower_http::{
     services::ServeDir,
     trace::TraceLayer,
 };
+use tracing_subscriber;
 // use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
-async fn main() {
+async fn main(){
     // // build our application with a single route
     // let app = Router::new().route("/web", get(test));
     // // run our app with hyper, listening globally on port 3000
@@ -20,6 +21,18 @@ async fn main() {
     // println!("Ready!");
 
     // axum::serve(listener, app).await.unwrap();
+
+    // let subscriber = tracing_subscriber::FmtSubscriber::new();
+
+    let subscriber = tracing_subscriber::fmt()
+        .compact()
+        .with_file(true)
+        .with_line_number(true)
+        .with_thread_ids(true)
+        .with_target(false)
+        .finish();
+
+    tracing::subscriber::set_global_default(subscriber);
 
     println!("Begin serve...");
     tokio::join!(
