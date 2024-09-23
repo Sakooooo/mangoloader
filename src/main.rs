@@ -2,6 +2,7 @@ use axum::{
     routing::get,
     Router,
     // http::StatusCode,
+    response::Redirect,
 };
 use std::net::SocketAddr;
 // use tower::ServiceExt;
@@ -54,4 +55,5 @@ fn begin_serve() -> Router {
     Router::new()
 	.nest_service("/web", ServeDir::new("./web"))
 	.route("/api/test", get(|| async {"Test"}))
+	.route("/", get(|| async { Redirect::permanent("/web") }))
 }
