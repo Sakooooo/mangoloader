@@ -28,7 +28,8 @@ function App() {
 	  <h1>Mangoloader</h1>
 	</div>
 	<div className='middle'>
-          <h2 className="post-title">{test[0].test}</h2>
+	  {test.length === 0 && "Loading..."}
+	  {test.length !== 0 && <h2>{test[0].test}</h2>}
 	</div>
       </div>
     </>
