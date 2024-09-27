@@ -5,11 +5,14 @@ import './App.css'
 
 function App() {
 
+  const apiHost = import.meta.env.VITE_API_HOST;
+
+  console.log('API Host is ' + apiHost);
 
   const [test, setTest] = useState<{ test: string }[]>([]);
 
    useEffect(() => {
-     fetch('/api/test')
+     fetch(apiHost + 'api/test')
          .then((response) => response.json())
          .then((data) => {
 	    setTest(data);
