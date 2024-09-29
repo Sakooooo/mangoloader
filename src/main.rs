@@ -1,5 +1,3 @@
-mod db;
-
 use axum::{
     routing::get,
     Router,
@@ -7,7 +5,7 @@ use axum::{
     // http::StatusCode,
     response::Redirect,
 };
-use std::net::SocketAddr;
+use std::{net::SocketAddr, process};
 // use tower::ServiceExt;
 use tower_http::{
     services::ServeDir,
@@ -15,6 +13,7 @@ use tower_http::{
 };
 use tracing_subscriber;
 use serde::Serialize;
+use sqlx::{self, sqlite};
 
 #[derive(Serialize)]
 struct Manga {
@@ -38,6 +37,10 @@ async fn main(){
         .with_max_level(tracing::Level::DEBUG)
         .init();
 
+    tracing::info!("Preparing database...");
+    sqlx::any::install_default_drivers();
+    let db = sqlx::sqlite::SqlitePool::connect("sqlite:mydb.db").await;
+    tracing::info!("Database ready!");
     tracing::info!("Starting Mangoloader...");
     tokio::join!(
         serve(begin_serve(), 3000),
