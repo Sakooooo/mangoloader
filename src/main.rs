@@ -1,3 +1,5 @@
+mod db;
+
 use axum::{
     routing::get,
     Router,
