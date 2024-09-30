@@ -37,7 +37,7 @@ async fn main(){
         .with_max_level(tracing::Level::DEBUG)
         .init();
 
-    tracing::info!("Preparing database...");
+    tracing::info!("Preparing database drivers...");
     sqlx::any::install_default_drivers();
     let db = sqlx::sqlite::SqlitePool::connect("sqlite:mydb.db").await;
     tracing::info!("Database ready!");
