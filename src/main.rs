@@ -31,7 +31,7 @@ struct Hello{
 }
 
 // TODO(sako) make this a commandline option maybe..
-const DATABASE: &str = "sqlite://database.db";
+const DATABASE: &str = "sqlite://./config/database.db";
 
 #[tokio::main]
 async fn main(){
@@ -54,7 +54,7 @@ async fn main(){
     }
 
     let db = SqlitePool::connect(DATABASE).await.unwrap();
-    let result = sqlx::query("CREATE TABLE IF NOT EXISTS manga (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(250) NOT NULL);").execute(&db).await.unwrap();
+    let result = sqlx::query("CREATE TABLE IF NOT EXISTS manga (id INTEGER PRIMARY KEY NOT NULL, name ntext NOT NULL, link text NOT NULL, status text NOT NULL, chapters int NOT NULL, chapters_downloaded int NOT NULL);").execute(&db).await.unwrap();
     tracing::info!("Created manga table: {:?}", result);
 
     tracing::info!("Database ready!");
