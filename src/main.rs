@@ -13,7 +13,7 @@ use tower_http::{
 };
 use tracing_subscriber;
 use serde::Serialize;
-use sqlx::{self, sqlite};
+use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 
 #[derive(Serialize)]
 struct Manga {
@@ -30,6 +30,9 @@ struct Hello{
     test: String,
 }
 
+// TODO(sako) make this a commandline option maybe..
+const DATABASE: &str = "sqlite://database.db";
+
 #[tokio::main]
 async fn main(){
 
@@ -39,8 +42,23 @@ async fn main(){
 
     tracing::info!("Preparing database drivers...");
     sqlx::any::install_default_drivers();
-    let db = sqlx::sqlite::SqlitePool::connect("sqlite:mydb.db").await;
+
+    if !Sqlite::database_exists(DATABASE).await.unwrap_or(false) {
+	tracing::info!("Creating database at {}...", DATABASE);
+        match Sqlite::create_database(DATABASE).await {
+	    Ok(_) => tracing::info!("Database created successfully!"),
+	    Err(error) => panic!("error: {}", error), 
+        }
+    } else {
+	tracing::info!("Database already exists...");
+    }
+
+    let db = SqlitePool::connect(DATABASE).await.unwrap();
+    let result = sqlx::query("CREATE TABLE IF NOT EXISTS manga (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(250) NOT NULL);").execute(&db).await.unwrap();
+    tracing::info!("Created manga table: {:?}", result);
+
     tracing::info!("Database ready!");
+
     tracing::info!("Starting Mangoloader...");
     tokio::join!(
         serve(begin_serve(), 3000),
