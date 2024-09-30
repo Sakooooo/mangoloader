@@ -1,5 +1,6 @@
 {
-  description = "Mangoloader nix flake because get it nix flake nix flake nix reproduce";
+  description =
+    "Mangoloader nix flake because get it nix flake nix flake nix reproduce";
 
   inputs = { nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; };
 
@@ -19,7 +20,11 @@
 
       devShells = eachSystem (pkgs: {
         default = pkgs.mkShell {
-          packages = attrValues { inherit (pkgs) cargo rustc rust-analyzer rustfmt pkg-config pnpm vscode-langservers-extracted sqlite-interactive openssl; };
+          packages = attrValues {
+            inherit (pkgs)
+              cargo cargo-watch rustc rust-analyzer rustfmt pnpm pkg-config
+              sqlite-interactive openssl vscode-langservers-extracted;
+          };
         };
       });
 
