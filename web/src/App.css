@@ -5,19 +5,10 @@
 
 .ui {
 	background-color: #323232;
-	position: relative;
-}
-
-.ui .top .left {
 	display: flex;
-	gap: 0.5em;
-	padding-left: 1.25em;
-	float: left;
-}
-
-.ui .top .right {
-	display: flex;
-	gap: -0.5em;
-	padding-right: 1.25em;
-	float: right;
+	.top {
+		display: flex;
+		gap: 0.5em;
+		padding-left: 1.25em;
+	}
 }
