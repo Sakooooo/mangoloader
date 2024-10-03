@@ -13,7 +13,17 @@ use tower_http::{
 };
 use tracing_subscriber;
 use serde::Serialize;
-use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
+use sqlx::{database, migrate::MigrateDatabase, Sqlite, SqlitePool};
+use clap::Parser;
+
+/// Simple program to greet a person
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    /// Name of the person to greet
+    #[arg(long)]
+    datadir: String,
+}
 
 #[derive(Serialize)]
 struct Manga {
@@ -31,11 +41,21 @@ struct Hello{
     test: String,
 }
 
-// TODO(sako) make this a commandline option maybe..
-const DATABASE: &str = "sqlite://./config/database.db";
-
 #[tokio::main]
 async fn main(){
+
+    let args = Args::parse();
+
+    // TODO(sako) make this a commandline option maybe..
+    // const DATABASE: &str = "sqlite://./config/database.db";
+
+    // what
+    // todo check if dir exists and make it
+    let data_dir: String = args.datadir.to_owned();
+    let database_file: &str = "/database.db";
+    let what = data_dir + database_file;
+    // i hate this
+    let database: &str = what.as_str();
 
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::DEBUG)
@@ -44,9 +64,9 @@ async fn main(){
     tracing::info!("Preparing database drivers...");
     sqlx::any::install_default_drivers();
 
-    if !Sqlite::database_exists(DATABASE).await.unwrap_or(false) {
-	tracing::info!("Creating database at {}...", DATABASE);
-        match Sqlite::create_database(DATABASE).await {
+    if !Sqlite::database_exists(database).await.unwrap_or(false) {
+	tracing::info!("Creating database at {}...", database);
+        match Sqlite::create_database(database).await {
 	    Ok(_) => tracing::info!("Database created successfully!"),
 	    Err(error) => panic!("error: {}", error), 
         }
@@ -54,7 +74,7 @@ async fn main(){
 	tracing::info!("Database already exists...");
     }
 
-    let db = SqlitePool::connect(DATABASE).await.unwrap();
+    let db = SqlitePool::connect(database).await.unwrap();
     let result = sqlx::query("CREATE TABLE IF NOT EXISTS manga (id INTEGER PRIMARY KEY NOT NULL, name ntext NOT NULL, link text NOT NULL, status text NOT NULL, chapters int NOT NULL, chapters_downloaded int NOT NULL);").execute(&db).await.unwrap();
     tracing::info!("Created manga table: {:?}", result);
 
