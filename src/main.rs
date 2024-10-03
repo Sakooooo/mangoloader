@@ -23,6 +23,7 @@ struct Manga {
     status: String,
     chapters: u64,
     chapters_downloaded: u64,
+    path: String,
 }
 
 #[derive(Serialize)]
