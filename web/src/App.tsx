@@ -1,4 +1,5 @@
 import Logo from './assets/react.svg'
+import addIcon from '/add.svg'
 import { useEffect, useState } from 'react' 
 import './App.css'
 
@@ -41,10 +42,15 @@ function App() {
     <>
       <div className='ui'>
 	<div className='top'>
+	  <div className='left'>
 	  <img src={Logo} alt="Mangoloader Logo"/> 
 	  <h1>Mangoloader</h1>
 	  {version.length === 0}
 	  {version.length !== 0 && <p>{version[0].version}</p>}
+	  </div>
+	  <div className='right'>
+	  <img src={addIcon} alt="Add Manga" width={35} height={35}/>
+	  </div>
 	</div>
 	<div className='middle'>
 	  {test.length === 0 && "Loading..."}
