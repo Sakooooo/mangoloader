@@ -13,7 +13,7 @@ use tower_http::{
 };
 use tracing_subscriber;
 use serde::Serialize;
-use sqlx::{database, migrate::MigrateDatabase, Sqlite, SqlitePool};
+use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use clap::Parser;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
