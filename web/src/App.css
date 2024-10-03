@@ -1,19 +1,23 @@
 #root {
-  padding: 2rem;
-  text-align: center;
+	padding: 2rem;
+	text-align: center;
 }
 
 .ui {
-    background-color: #323232;
+	background-color: #323232;
+	position: relative;
 }
 
 .ui .top .left {
-    display: flex;
-    gap: 0.5em;
-    padding-left: 1.25em;
+	display: flex;
+	gap: 0.5em;
+	padding-left: 1.25em;
+	float: left;
 }
 
-.ui .top .right{
-    display: flex;
-    margin-left: auto;
+.ui .top .right {
+	display: flex;
+	gap: -0.5em;
+	padding-right: 1.25em;
+	float: right;
 }
