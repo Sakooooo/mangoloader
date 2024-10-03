@@ -24,6 +24,7 @@
             inherit (pkgs)
               cargo cargo-watch rustc rust-analyzer rustfmt pnpm pkg-config
               sqlite-interactive openssl vscode-langservers-extracted;
+            inherit (pkgs.nodePackages) prettier;
           };
         };
       });
