@@ -16,7 +16,9 @@ use serde::Serialize;
 use sqlx::{database, migrate::MigrateDatabase, Sqlite, SqlitePool};
 use clap::Parser;
 
-/// Simple program to greet a person
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+// args
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
@@ -39,6 +41,12 @@ struct Manga {
 #[derive(Serialize)]
 struct Hello{
     test: String,
+}
+
+#[derive(Serialize)]
+struct Version {
+    version: String,
+    
 }
 
 #[tokio::main]
@@ -105,6 +113,16 @@ async fn json_test() -> Json<Vec<Hello>> {
     Json(hello)
 }
 
+async fn get_version() -> Json<Vec<Version>> {
+    let version = vec![
+	Version {
+	    version: VERSION.to_string(),
+	}
+    ];
+
+    Json(version)
+}
+
 fn begin_serve() -> Router {
     // serve the file in the "web" directory under `/web`
     tracing::info!("Mangoloader ready!");
@@ -112,6 +130,7 @@ fn begin_serve() -> Router {
         .layer(TraceLayer::new_for_http())
 	.nest_service("/web", ServeDir::new("./web"))
 	.route("/api/test", get(json_test))
+	.route("/api/version", get(get_version))
 	// redirect / to /web
 	.route("/", get(|| async { Redirect::permanent("/web") }))
 }
