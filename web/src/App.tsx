@@ -11,11 +11,25 @@ function App() {
 
   const [test, setTest] = useState<{ test: string }[]>([]);
 
+  const [version, setVersion] = useState<{version: string}[]>([]);
+
    useEffect(() => {
      fetch(apiHost + 'api/test')
          .then((response) => response.json())
          .then((data) => {
 	    setTest(data);
+            console.log(data);
+         })
+         .catch((err) => {
+            console.log(err);
+         });
+   }, []);
+
+   useEffect(() => {
+     fetch(apiHost + 'api/version')
+         .then((response) => response.json())
+         .then((data) => {
+	    setVersion(data);
             console.log(data);
          })
          .catch((err) => {
@@ -29,6 +43,8 @@ function App() {
 	<div className='top'>
 	  <img src={Logo} alt="Mangoloader Logo"/> 
 	  <h1>Mangoloader</h1>
+	  {version.length === 0}
+	  {version.length !== 0 && <p>{version[0].version}</p>}
 	</div>
 	<div className='middle'>
 	  {test.length === 0 && "Loading..."}
