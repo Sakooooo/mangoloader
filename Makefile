@@ -12,4 +12,4 @@ debug:
 release:
 	cargo build --release
 	cd $(PROJDIR)/web && pnpm build
-	mv $(PROJDIR/web/dist) $(release_output)/web
+	mv $(PROJDIR)/web/dist $(release_output)/web
