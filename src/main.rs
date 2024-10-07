@@ -5,7 +5,7 @@ use axum::{
     // http::StatusCode,
     response::Redirect,
 };
-use std::{net::SocketAddr, process};
+use std::{net::SocketAddr, process, path::Path};
 // use tower::ServiceExt;
 use tower_http::{
     services::ServeDir,
@@ -52,10 +52,11 @@ struct Version {
 #[tokio::main]
 async fn main(){
 
-    let args = Args::parse();
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::DEBUG)
+        .init();
 
-    // TODO(sako) make this a commandline option maybe..
-    // const DATABASE: &str = "sqlite://./config/database.db";
+    let args = Args::parse();
 
     // what
     // todo check if dir exists and make it
@@ -64,10 +65,6 @@ async fn main(){
     let what = data_dir + database_file;
     // i hate this
     let database: &str = what.as_str();
-
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
-        .init();
 
     tracing::info!("Preparing database drivers...");
     sqlx::any::install_default_drivers();
