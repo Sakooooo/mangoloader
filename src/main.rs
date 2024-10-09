@@ -5,7 +5,7 @@ use axum::{
     // http::StatusCode,
     response::Redirect,
 };
-use std::{net::SocketAddr, process, path::Path};
+use std::{net::SocketAddr, fs, path::Path};
 // use tower::ServiceExt;
 use tower_http::{
     services::ServeDir,
@@ -59,12 +59,21 @@ async fn main(){
     let args = Args::parse();
 
     // what
-    // todo check if dir exists and make it
     let data_dir: String = args.datadir.to_owned();
     let database_file: &str = "/database.db";
     let what = data_dir + database_file;
     // i hate this
     let database: &str = what.as_str();
+
+    let data_dir_path = Path::new(args.datadir.as_str());
+
+    if data_dir_path.exists() {
+	tracing::debug!("Config dir already exists");
+    } else {
+	tracing::debug!("Creating data directory");
+	fs::create_dir(data_dir_path);
+	tracing::debug!("Created data directory!");
+    }
 
     tracing::info!("Preparing database drivers...");
     sqlx::any::install_default_drivers();
