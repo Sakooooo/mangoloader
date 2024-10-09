@@ -1,9 +1,5 @@
 use axum::{
-    routing::get,
-    Router,
-    Json,
-    // http::StatusCode,
-    response::Redirect,
+    response::Redirect, routing::get, Error, Json, Router
 };
 use std::{net::SocketAddr, fs, path::Path};
 // use tower::ServiceExt;
@@ -71,7 +67,7 @@ async fn main(){
 	tracing::debug!("Config dir already exists");
     } else {
 	tracing::debug!("Creating data directory");
-	fs::create_dir(data_dir_path);
+	fs::create_dir(data_dir_path).expect("Creation failed!");
 	tracing::debug!("Created data directory!");
     }
 
