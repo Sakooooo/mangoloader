@@ -18,7 +18,7 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// Name of the person to greet
+    /// Location where mangoloader stores its files 
     #[arg(long)]
     datadir: String,
 }
