@@ -18,8 +18,9 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// Location where mangoloader stores its files 
+    /// Location where mangoloader stores its configuration (database, etc)
     #[arg(long)]
+    configdir: String,
     datadir: String,
 }
 
@@ -55,13 +56,13 @@ async fn main(){
     let args = Args::parse();
 
     // what
-    let data_dir: String = args.datadir.to_owned();
+    let data_dir: String = args.configdir.to_owned();
     let database_file: &str = "/database.db";
     let what = data_dir + database_file;
     // i hate this
     let database: &str = what.as_str();
 
-    let data_dir_path = Path::new(args.datadir.as_str());
+    let data_dir_path = Path::new(args.configdir.as_str());
 
     if data_dir_path.exists() {
 	tracing::debug!("Config dir already exists");
