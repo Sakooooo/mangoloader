@@ -21,6 +21,7 @@ struct Args {
     /// Location where mangoloader stores its configuration (database, etc)
     #[arg(long)]
     configdir: String,
+    #[arg(long)]
     datadir: String,
 }
 
