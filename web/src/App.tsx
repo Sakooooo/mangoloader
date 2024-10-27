@@ -39,12 +39,20 @@ function App() {
 	return (
 		<>
 			<div className="ui">
-				<div className="top">
+				<div className="top-left">
 					<img src={Logo} alt="Mangoloader Logo" />
 					<h1>Mangoloader</h1>
 					{version.length === 0}
 					{version.length !== 0 && <p>{version[0].version}</p>}
-					<img src={addIcon} alt="Add Manga" width={35} height={35} />
+				</div>
+				<div className="top-right">
+					<img
+						id="right"
+						src={addIcon}
+						alt="Add Manga"
+						width={35}
+						height={35}
+					/>
 				</div>
 				<div className="middle">
 					{test.length === 0 && "Loading..."}
