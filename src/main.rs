@@ -97,7 +97,7 @@ async fn main(){
 
     tracing::info!("Starting Mangoloader...");
     tokio::join!(
-        serve(begin_serve(), 3000),
+        serve(api::routes::make_routes(), 3000),
     );
 }
 
@@ -110,34 +110,3 @@ async fn serve(app: Router, port: u16) {
         .unwrap();
 }
 
-async fn json_test() -> Json<Vec<Hello>> {
-    let hello = vec![
-	Hello {
-	    test: "Hello Rust".to_string(),
-	}
-    ];
-
-    Json(hello)
-}
-
-async fn get_version() -> Json<Vec<Version>> {
-    let version = vec![
-	Version {
-	    version: VERSION.to_string(),
-	}
-    ];
-
-    Json(version)
-}
-
-fn begin_serve() -> Router {
-    // serve the file in the "web" directory under `/web`
-    tracing::info!("Mangoloader ready!");
-    Router::new()
-        .layer(TraceLayer::new_for_http())
-	.nest_service("/web", ServeDir::new("./web"))
-	.route("/api/test", get(json_test))
-	.route("/api/version", get(get_version))
-	// redirect / to /web
-	.route("/", get(|| async { Redirect::permanent("/web") }))
-}
