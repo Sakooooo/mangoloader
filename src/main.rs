@@ -57,8 +57,6 @@ async fn main(){
         .with_max_level(tracing::Level::DEBUG)
         .init();
 
-    api::manga::test();
-
     let args = Args::parse();
 
     // what
