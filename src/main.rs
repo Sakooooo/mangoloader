@@ -18,9 +18,10 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// Location where mangoloader stores its configuration (database, etc)
+    /// Config Directory Location
     #[arg(long)]
     configdir: String,
+    /// Data Directory Location
     #[arg(long)]
     datadir: String,
 }
