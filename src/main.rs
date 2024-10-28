@@ -12,6 +12,8 @@ use serde::Serialize;
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use clap::Parser;
 
+pub mod api;
+
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 // args
@@ -54,6 +56,8 @@ async fn main(){
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::DEBUG)
         .init();
+
+    api::manga::test();
 
     let args = Args::parse();
 
