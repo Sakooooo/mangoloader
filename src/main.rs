@@ -11,9 +11,10 @@ use tracing_subscriber;
 use serde::Serialize;
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use clap::Parser;
-use reqwest::get as httpget;
+use reqwest::Client;
 
 pub mod api;
+pub mod scraper;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
