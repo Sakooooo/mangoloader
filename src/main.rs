@@ -11,6 +11,7 @@ use tracing_subscriber;
 use serde::Serialize;
 use sqlx::{migrate::MigrateDatabase, Sqlite, SqlitePool};
 use clap::Parser;
+use reqwest::get as httpget;
 
 pub mod api;
 
