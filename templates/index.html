@@ -1,2 +1,14 @@
-<!DOCTYPE html>
-<html></html>
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="/static/index.css">
+{% endblock %}
+{% block body %}
+<h1> a </h1>
+<form action="" method="post">
+    <button name="add" value="add">add</button>
+</form>
+{% if add_modal %}
+<div class="add-modal">
+</div>
+{% endif %}
+{% endblock %}
