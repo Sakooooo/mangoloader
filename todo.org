@@ -1,0 +1,4 @@
+
+* TODO Pick scraping library
+** https://docs.rs/soup/latest/soup/
+** https://docs.rs/thirtyfour/latest/thirtyfour/
