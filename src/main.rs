@@ -1,4 +1,6 @@
 mod api;
+mod lua;
+mod scraper;
 
 #[tokio::main]
 async fn main() {
@@ -26,6 +28,8 @@ async fn main() {
             panic!("{}", err);
         }
     };
+
+    // lua::test_lua();
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
 

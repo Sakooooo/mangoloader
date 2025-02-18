@@ -32,6 +32,7 @@
             openssl
             vscode-langservers-extracted
             sqlx-cli
+            luajit
             ;
           inherit (pkgs.nodePackages) prettier;
         };
