@@ -11,11 +11,18 @@ use tower_http::trace::TraceLayer;
 #[template(path = "index.html")]
 struct Index {
     // todo maybe we're supposed to use Option<>?
-    add_modal: bool,
+    sources: Vec<String>,
 }
 
-async fn index(add: bool) -> Html<String> {
-    let template = Index { add_modal: add };
+async fn index() -> Html<String> {
+    let dummy_sources: Vec<String> = vec![
+        "source1".to_string(),
+        "source2".to_string(),
+        "source3".to_string(),
+    ];
+    let template = Index {
+        sources: dummy_sources,
+    };
     return Html(template.render().unwrap());
 }
 
@@ -24,5 +31,5 @@ pub async fn serve() -> Router {
     return Router::new()
         .layer(TraceLayer::new_for_http())
         .nest_service("/static", ServeDir::new("static"))
-        .route("/", get(index(false).await));
+        .route("/", get(index));
 }

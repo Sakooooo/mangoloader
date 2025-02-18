@@ -4,11 +4,22 @@
 {% endblock %}
 {% block body %}
 <h1> a </h1>
-<form action="" method="post">
-    <button name="add" value="add">add</button>
-</form>
-{% if add_modal %}
-<div class="add-modal">
+<button popovertarget="mypopover">Add</button>
+<div popover id="mypopover">
+  <form method="get" action="/search">
+    <label>
+      Search 
+      <input name="query">
+    </label>
+    <label>
+	Source 
+	<select id="source" name="source">
+	    {% for source in sources %}
+	    <option value="{{ source }}">{{ source }}</option>
+	    {% endfor %}
+	</select>
+    </label>
+    <button>Search</button>
+  </form>
 </div>
-{% endif %}
 {% endblock %}
