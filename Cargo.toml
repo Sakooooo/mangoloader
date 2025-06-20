@@ -4,22 +4,22 @@ version = "0.0.1"
 edition = "2021"
 
 [dependencies]
-axum = "0.7.5"
-clap = { version = "4.5.19", features = ["derive"] }
-hyper = "1.4.1"
-mlua = { version = "0.10.3", features = ["async", "luajit"] }
-reqwest = "0.12.9"
-rinja = "0.3.5"
+axum = "0.8.4"
+clap = { version = "4.5.40", features = ["derive"] }
+hyper = "1.6.0"
+mlua = { version = "0.10.5", features = ["async", "luajit"] }
+reqwest = "0.12.20"
+rinja = "0.4.0"
 rinja_axum = "0.3.5"
-scraper = "0.22.0"
-serde = { version = "1.0.210", features = ["derive"] }
-serde_json = "1.0.128"
-sqlx = { version = "0.8.2", features = ["runtime-tokio-native-tls", "sqlite"] }
-tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
-tower = { version = "0.5.1", features = ["util"] }
-tower-http = { version = "0.6.0", features = ["cors", "fs", "trace"] }
-tracing = "0.1.40"
-tracing-subscriber = "0.3.18"
+scraper = "0.23.1"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+sqlx = { version = "0.8.6", features = ["runtime-tokio-native-tls", "sqlite"] }
+tokio = { version = "1.45.1", features = ["macros", "rt-multi-thread"] }
+tower = { version = "0.5.2", features = ["util"] }
+tower-http = { version = "0.6.6", features = ["cors", "fs", "trace"] }
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
 
 # faster rinja builds
 [profile.dev.package.rinja_derive]
