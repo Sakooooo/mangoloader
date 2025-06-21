@@ -1,9 +1,9 @@
+use askama::Template;
 use axum::{
     response::Html,
     routing::{get, post},
     Router,
 };
-use rinja_axum::Template;
 use tower_http::services::ServeDir;
 use tower_http::trace::TraceLayer;
 
@@ -27,7 +27,7 @@ async fn index() -> Html<String> {
 }
 
 pub async fn serve() -> Router {
-    tracing::info!("creating routes");
+    tracing::info!("mangoloader ready");
     return Router::new()
         .layer(TraceLayer::new_for_http())
         .nest_service("/static", ServeDir::new("static"))

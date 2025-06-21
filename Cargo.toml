@@ -7,10 +7,8 @@ edition = "2021"
 axum = "0.8.4"
 clap = { version = "4.5.40", features = ["derive"] }
 hyper = "1.6.0"
-mlua = { version = "0.10.5", features = ["async", "luajit"] }
 reqwest = "0.12.20"
-rinja = "0.4.0"
-rinja_axum = "0.3.5"
+askama = "0.14.0"
 scraper = "0.23.1"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
@@ -22,5 +20,11 @@ tracing = "0.1.41"
 tracing-subscriber = "0.3.19"
 
 # faster rinja builds
-[profile.dev.package.rinja_derive]
+[profile.dev.package.askama_derive]
 opt-level = 3
+
+[profile.dev.build-override]
+opt-level = 3
+
+[profile.release]
+strip = true

@@ -1,19 +1,15 @@
+use std::net::ToSocketAddrs;
+
 mod api;
-mod lua;
 mod scraper;
 
 #[tokio::main]
 async fn main() {
     let subscriber = tracing_subscriber::fmt()
-        // Use a more compact, abbreviated log format
         .compact()
-        // Display source code file paths
         .with_file(true)
-        // Display source code line numbers
         .with_line_number(true)
-        // Don't display the event's target (module path)
         .with_target(false)
-        // Build the subscriber
         .with_max_level(if cfg!(debug_assertions) {
             tracing::Level::DEBUG
         } else {
@@ -29,9 +25,10 @@ async fn main() {
         }
     };
 
-    // lua::test_lua();
+    let address = "0.0.0.0:3000";
+    let listener = tokio::net::TcpListener::bind(address).await.unwrap();
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    tracing::info!("listening at {}", address);
 
     axum::serve(listener, api::web::serve().await)
         .await
