@@ -3,23 +3,6 @@
 <link rel="stylesheet" href="/static/index.css">
 {% endblock %}
 {% block body %}
-<h1> a </h1>
-<button popovertarget="add">Add</button>
-<div popover id="add">
-  <form method="get" action="/search">
-    <label>
-      Search 
-      <input name="query">
-    </label>
-    <label>
-	Source 
-	<select id="source" name="source">
-	    {% for source in sources %}
-	    <option value="{{ source }}">{{ source }}</option>
-	    {% endfor %}
-	</select>
-    </label>
-    <button>Search</button>
-  </form>
-</div>
+<h1>Mangoloader - {{version}}</h1>
+<a class="button" href="/add">Add</a>
 {% endblock %}
