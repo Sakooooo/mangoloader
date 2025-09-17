@@ -1,4 +1,4 @@
-module github.com/Sakooooo/mangoloader/m/v2
+module github.com/Sakooooo/mangoloader
 
 go 1.24.6
 

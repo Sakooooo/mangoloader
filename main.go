@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -8,6 +9,12 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
+
+//go:embed templates
+var templateFS embed.FS
+
+//go:embed static
+var staticFS embed.FS
 
 func main() {
 	fmt.Println("Hello")
@@ -21,6 +28,12 @@ func main() {
 		return
 	}
 
+	// staticServ, err := fs.Sub(staticFS, "")
+	// if err != nil {
+	// 	fmt.Println("failed to prepare static dir: ", err)
+	// 	return
+	// }
+
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		// w.Write([]byte("hello"))
 
@@ -32,6 +45,20 @@ func main() {
 		}
 
 	})
+
+	r.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticFS))))
+
+	test, err := staticFS.ReadDir(".")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	for _, f := range test {
+		fmt.Println(f.Name())
+	}
+
+	fmt.Println()
 
 	fmt.Println("Listening on :3000")
 
