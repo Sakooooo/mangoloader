@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/Sakooooo/mangoloader/internal/config"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -18,6 +19,14 @@ var staticFS embed.FS
 
 func main() {
 	fmt.Println("Hello")
+
+	config, err := config.ReadConfig("config.example.toml")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	targetHost := config.Server.Host + ":" + config.Server.Port
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -42,7 +51,7 @@ func main() {
 
 	r.Handle("/static/*", http.FileServer(http.FS(staticFS)))
 
-	fmt.Println("Listening on :3000")
+	fmt.Println("Listening on ", targetHost)
 
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(targetHost, r)
 }
