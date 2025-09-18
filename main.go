@@ -31,7 +31,8 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	tmpl, err := template.ParseGlob("templates/*")
+	// tmpl, err := template.ParseGlob("templates/*")
+	tmpl, err := template.ParseFS(templateFS, "templates/*.html")
 	if err != nil {
 		fmt.Println("failed to load templates: ", err)
 		return
