@@ -20,37 +20,37 @@ type server struct {
 	Port string
 }
 
-type config struct {
+type Config struct {
 	Database database
 	Server   server
 }
 
-func ReadConfig(path string) (config, error) {
-	var cfg config
+func ReadConfig(path string) (Config, error) {
+	var cfg Config
 
-	configFile, err := os.Open(path)
+	ConfigFile, err := os.Open(path)
 	if err != nil {
-		fmt.Println("Failed to read config file: ", err)
-		return config{}, err
+		fmt.Println("Failed to read Config file: ", err)
+		return Config{}, err
 	}
 
-	fileinfo, err := configFile.Stat()
+	fileinfo, err := ConfigFile.Stat()
 	if err != nil {
-		fmt.Println("Failed to get configfile info: ", err)
-		return config{}, err
+		fmt.Println("Failed to get Configfile info: ", err)
+		return Config{}, err
 	}
 
 	bs := make([]byte, fileinfo.Size())
-	_, err = bufio.NewReader(configFile).Read(bs)
+	_, err = bufio.NewReader(ConfigFile).Read(bs)
 	if err != nil {
-		fmt.Println("Failed to read config file: ", err)
-		return config{}, err
+		fmt.Println("Failed to read Config file: ", err)
+		return Config{}, err
 	}
 
 	err = toml.Unmarshal(bs, &cfg)
 	if err != nil && err != io.EOF {
-		fmt.Println("Failed to decode config file: ", err)
-		return config{}, err
+		fmt.Println("Failed to decode Config file: ", err)
+		return Config{}, err
 	}
 
 	return cfg, nil

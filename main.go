@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/Sakooooo/mangoloader/internal/config"
+	"github.com/Sakooooo/mangoloader/internal/database"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -27,6 +28,13 @@ func main() {
 	}
 
 	targetHost := config.Server.Host + ":" + config.Server.Port
+
+	db, err := database.InitDB(config)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(db)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)

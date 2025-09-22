@@ -1,6 +1,6 @@
 [database]
 engine = "sqlite"
-host = "127.0.0.1"
+host = ".workingdir/database.db"
 port = "3000"
 
 [server]

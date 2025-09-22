@@ -16,6 +16,7 @@
         go
         gopls
         gnumake
+        sqlite-interactive
       ];
     };
   };
