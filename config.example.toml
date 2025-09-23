@@ -1,7 +1,8 @@
 [database]
 engine = "sqlite"
-host = ".workingdir/database.db"
-port = "3000"
+directory = "/var/lib/mangoloader/database/"
+# host = "127.0.0.1"
+# port = "3000"
 
 [server]
 host = "127.0.0.1"

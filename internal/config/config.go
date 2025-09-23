@@ -10,9 +10,10 @@ import (
 )
 
 type database struct {
-	Engine string
-	Host   string
-	Port   string
+	Engine    string
+	Directory string
+	// Host      string
+	// Port      string
 }
 
 type server struct {
