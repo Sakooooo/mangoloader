@@ -1,4 +1,4 @@
-{{template "base.html"}}
+{{template "base.html" .}}
 {{define "head"}}
 <link rel="stylesheet" href="/static/styles/index.css">
 {{end}}
@@ -14,7 +14,8 @@
 <hr>
 
 <div class="items">
-    {{range .data.Manga}}
+    {{ printf "%#v" . }}
+    {{range .Manga}}
         <h1>{{ .Title }}</h1>
     {{end}}
 </div>
