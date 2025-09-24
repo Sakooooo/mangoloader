@@ -1,12 +1,14 @@
 package main
 
 import (
+	// "database/sql"
 	"embed"
 	"fmt"
-	sq "github.com/Masterminds/squirrel"
 	"html/template"
 	"net/http"
 	_ "os"
+
+	sq "github.com/Masterminds/squirrel"
 
 	"github.com/Sakooooo/mangoloader/internal/config"
 	"github.com/Sakooooo/mangoloader/internal/database"
@@ -21,6 +23,7 @@ var templateFS embed.FS
 var staticFS embed.FS
 
 type indexData struct {
+	manga []database.Manga
 }
 
 func main() {
@@ -54,23 +57,55 @@ func main() {
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		// w.Write([]byte("hello"))
 
-		mangaQuery := sq.Select("title", "source").From("manga")
-		manga, err := mangaQuery.RunWith(db.DB).Query()
+		queryBuilder := sq.Select(
+			"id",
+			"title",
+			"artist",
+			"cover",
+			"source",
+		).From("manga")
+
+		query, args, err := queryBuilder.ToSql()
 		if err != nil {
-			http.Error(w, "Failed to query database.", http.StatusInternalServerError)
-			fmt.Println("Failed to query DB: ", err)
+			http.Error(w, "Failed to build query.", http.StatusInternalServerError)
+			fmt.Println("Failed to build query: ", err)
+			return
 		}
 
-		// need to query
-		// see if can use struct
+		rows, err := db.DB.Query(query, args...)
+		if err != nil {
+			http.Error(w, "Failed to query database.", http.StatusInternalServerError)
+			fmt.Println("Failed to query database: ", err)
+			return
+		}
+		defer rows.Close()
 
-		err = tmpl.ExecuteTemplate(w, "index.html", nil)
+		var data indexData
+
+		for rows.Next() {
+			var m database.Manga
+
+			if err := rows.Scan(&m.Id, &m.Title, &m.Artist, &m.Cover, &m.Source); err != nil {
+				http.Error(w, "Failed to scan rows", http.StatusInternalServerError)
+				fmt.Println("Failed to scan rows: ", err)
+				return
+			}
+
+			data.manga = append(data.manga, m)
+		}
+
+		if err = rows.Err(); err != nil {
+			http.Error(w, "Query errored.", http.StatusInternalServerError)
+			fmt.Println("Query errored: ", err)
+			return
+		}
+
+		err = tmpl.ExecuteTemplate(w, "index.html", data)
 		if err != nil {
 			http.Error(w, "Failed to render template.", http.StatusInternalServerError)
 			fmt.Println("Failed to render template: ", err)
 			return
 		}
-
 	})
 
 	// r.Handle("/static/*", http.FileServer(http.FS(staticFS)))

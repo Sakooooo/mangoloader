@@ -17,13 +17,11 @@ type DB struct {
 }
 
 type Manga struct {
-	title  string
-	source string
-}
-
-type MangaDBRow struct {
-	ID int
-	Manga
+	Id     int
+	Title  string
+	Artist string
+	Cover  string
+	Source string
 }
 
 func InitDB(cfg config.Config) (DB, error) {
@@ -49,12 +47,15 @@ func InitDB(cfg config.Config) (DB, error) {
 		return DB{}, err
 	}
 
+	// could we move this somewhere else
 	_, err = db.ExecContext(
 		context.Background(),
 		`
 		CREATE TABLE IF NOT EXISTS manga (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
 			title TEXT NOT NULL,
+			artist TEXT NOT NULL,
+			cover TEXT NOT NULL,
 			source TEXT NOT NULL
 		)
 		`,
