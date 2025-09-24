@@ -22,8 +22,8 @@ var templateFS embed.FS
 //go:embed static
 var staticFS embed.FS
 
-type indexData struct {
-	manga []database.Manga
+type IndexData struct {
+	Manga []database.Manga
 }
 
 func main() {
@@ -80,7 +80,7 @@ func main() {
 		}
 		defer rows.Close()
 
-		var data indexData
+		var data IndexData
 
 		for rows.Next() {
 			var m database.Manga
@@ -91,7 +91,7 @@ func main() {
 				return
 			}
 
-			data.manga = append(data.manga, m)
+			data.Manga = append(data.Manga, m)
 		}
 
 		if err = rows.Err(); err != nil {
@@ -99,6 +99,11 @@ func main() {
 			fmt.Println("Query errored: ", err)
 			return
 		}
+
+		fmt.Printf("Data to be passed to template: %+v\n", data)
+
+		fmt.Println(data)
+		fmt.Println(data.Manga)
 
 		err = tmpl.ExecuteTemplate(w, "index.html", data)
 		if err != nil {

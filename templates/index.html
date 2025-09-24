@@ -12,8 +12,10 @@
   </div>
 </div>
 <hr>
+
 <div class="items">
-{{ range . }}
-{{ end }}
+    {{range .data.Manga}}
+        <h1>{{ .Title }}</h1>
+    {{end}}
 </div>
 {{end}}
