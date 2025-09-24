@@ -12,11 +12,15 @@
   </div>
 </div>
 <hr>
-
 <div class="items">
-    {{ printf "%#v" . }}
+    <!-- {{ printf "%#v" . }} -->
     {{range .Manga}}
-        <h1>{{ .Title }}</h1>
+    <div class="itemcard">
+        <img id="coverimage" src="{{ .Cover }}">
+        <p>{{ .Title }}</p>
+        <p>{{ .Artist }}</p>
+        <p>{{ .Source }}</p>
+     </div>
     {{end}}
 </div>
 {{end}}
